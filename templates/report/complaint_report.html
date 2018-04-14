@@ -1,0 +1,280 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+{% load list_tag %}
+
+    <div class="row">
+        <div class="col-sm-12" style="margin:10px 0 0 0">
+            <a href="{% url 'report:settings' %}" class="btn btn-primary"><i class="icon ion-ios-arrow-left"></i> Click to Reset Settings </a>
+        </div>
+    </div>
+
+    <div class="widget-content">
+    <br/>
+    <div class="row">
+        <div class="col-sm-6">
+                <div class="quick-info boxed bg-orange quick-info2">
+                  <!--<i class="icon ion-arrow-graph-up-right"></i>-->
+                  <p><span> Start Date : </span><strong>{{start_date}}</strong> </p>
+                </div>
+			</div>
+
+              <div class="col-sm-6">
+                <div class="quick-info boxed bg-blue quick-info2">
+                    <!--<i class="icon ion-arrow-graph-up-right"></i>-->
+                    <p><span > End Date : </span><strong>{{end_date}}</strong> </p>
+                </div>
+            </div>
+        </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="widget">
+                <div id="highchart-1" style="height: 300px"></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+             <div class="widget-content table-responsive">
+                <div class="">
+                  <table id="example4" class="display datagrid4" cellspacing="0" width="100%">
+                    <thead>
+                      <tr>
+                        <th>Agency</th>
+                        <th>Cases Count</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for  value in resp_list %}
+                      <tr>
+                        <td>{{ categories|lookup:value  }}</td>
+                        <td>{{ data|lookup:value }}</td>
+                      </tr>
+                  {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="widget">
+                <div id="highchart-0" style="height: 300px"></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+             <div class="widget-content table-responsive">
+                <div class="">
+                  <table id="example4" class="display datagrid4" cellspacing="0" width="100%">
+                    <thead>
+                      <tr>
+                        <th>Emergency</th>
+                        <th>Cases Count</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for  value in emer_list %}
+                      <tr>
+                        <td>{{ categories_emergency|lookup:value  }}</td>
+                        <td>{{ data_emergencies|lookup:value }}</td>
+                      </tr>
+                  {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="widget">
+                <div id="highchart-2" style="height: 300px"></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+             <div class="widget-content table-responsive">
+                <div class="">
+                  <table id="example4" class="display datagrid4" cellspacing="0" width="100%">
+                    <thead>
+                      <tr>
+                        <th>Emergency</th>
+                        <th>Cases Count</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for  value in state_list %}
+                      <tr>
+                        <td>{{ categories_state|lookup:value  }}</td>
+                        <td>{{ data_state|lookup:value }}</td>
+                      </tr>
+                  {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+             </div>
+        </div>
+    </div>
+</div>
+    <script type='text/javascript'>
+    var dataset;
+
+    dataset = {
+      "chart": {
+            "type": 'column'
+        },
+      "title": {
+        "text": 'Cases by Agency'
+        },
+      "subtitle": {
+        "text": 'Source: CallTaker.com'
+        },
+      "xAxis": {
+            "categories": [
+                    {% for t in categories %}
+                        {% if not forloop.first %}, {% endif %}
+                        "{{ t }}"
+                    {% endfor %}
+            ],
+            "crosshair": true
+        },
+        "yAxis": {
+            "min": 0,
+            "title": {
+                "text": 'Number'
+            }
+        },
+        "tooltip": {
+            "headerFormat": '<span style="font-size:10px">{point.key}</span><table>',
+            "pointFormat": '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} times</b></td></tr>',
+            "footerFormat": '</table>',
+            "shared": true,
+            "useHTML": true
+        },
+        "plotOptions": {
+            "column": {
+                "pointPadding": 0.2,
+                "borderWidth": 0
+            }
+        },
+
+        "series": [{
+            "name": 'Agency',
+            "data": {{ data }}
+
+        }]
+
+    };
+
+    $('#highchart-1').highcharts(dataset);
+  </script>
+    <script type='text/javascript'>
+    var dataset;
+
+    dataset = {
+      "chart": {
+            "type": 'column'
+        },
+      "title": {
+        "text": 'Case by Emergencies'
+        },
+      "subtitle": {
+        "text": 'Source: CallTaker.com'
+        },
+      "xAxis": {
+            "categories": [
+                    {% for t in categories_emergency %}
+                        {% if not forloop.first %}, {% endif %}
+                        "{{ t }}"
+                    {% endfor %}
+            ],
+            "crosshair": true
+        },
+        "yAxis": {
+            "min": 0,
+            "title": {
+                "text": 'Number'
+            }
+        },
+        "tooltip": {
+            "headerFormat": '<span style="font-size:10px">{point.key}</span><table>',
+            "pointFormat": '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} times</b></td></tr>',
+            "footerFormat": '</table>',
+            "shared": true,
+            "useHTML": true
+        },
+        "plotOptions": {
+            "column": {
+                "pointPadding": 0.2,
+                "borderWidth": 0
+            }
+        },
+
+        "series": [{
+            "name": 'Emergencies',
+            "data": {{ data_emergencies }}
+
+        }]
+
+    };
+
+    $('#highchart-0').highcharts(dataset);
+  </script>
+
+    <script type='text/javascript'>
+    var dataset;
+
+    dataset = {
+      "chart": {
+            "type": 'column'
+        },
+      "title": {
+        "text": 'Cases By State'
+        },
+      "subtitle": {
+        "text": 'Source: CallTaker.com'
+        },
+      "xAxis": {
+            "categories": [
+                    {% for t in categories_state %}
+                        {% if not forloop.first %}, {% endif %}
+                        "{{ t }}"
+                    {% endfor %}
+            ],
+            "crosshair": true
+        },
+        "yAxis": {
+            "min": 0,
+            "title": {
+                "text": 'Number'
+            }
+        },
+        "tooltip": {
+            "headerFormat": '<span style="font-size:10px">{point.key}</span><table>',
+            "pointFormat": '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} times</b></td></tr>',
+            "footerFormat": '</table>',
+            "shared": true,
+            "useHTML": true
+        },
+        "plotOptions": {
+            "column": {
+                "pointPadding": 0.2,
+                "borderWidth": 0
+            }
+        },
+
+        "series": [{
+            "name": 'Cases By State',
+            "data": {{ data_state }}
+
+        }]
+
+    };
+
+    $('#highchart-2').highcharts(dataset);
+  </script>
+{% endblock %}

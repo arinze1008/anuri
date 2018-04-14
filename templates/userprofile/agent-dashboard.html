@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load bootstrap_form from bootstrap3 %}
+{% load i18n %}
+
+{% block content %}
+<div class="row">
+<div class="col-sm-6 col-sm-offset-2 col-lg-6 col-lg-offset-2">
+				<div class="content-box-bordered login-box box-with-help">
+    <div class="widget-content">
+        <form class="form-horizontal" role="form" method="post">
+            {% csrf_token %}
+             <fieldset>
+                <legend><span class="general-title mb-lf">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 
+                    {% trans 'login to your console' %}</span></legend>
+                    {% bootstrap_form form %}
+                <input type="hidden" name="next" value="{{ next }}" />
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-primary btn-md button-submit">
+                    <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> {% trans "Enter Console" %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+    </div>
+</div>
+    <script>
+        $(function () {
+            // Correctly decide between ws:// and wss://
+            var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+            var ws_path = ws_scheme + '://' + window.location.host + window.location.pathname + "stream/";
+            console.log("Connecting to " + ws_path);
+            var socket = new ReconnectingWebSocket(ws_path);
+            var agent =  "{{ my_agent }}"
+            console.log(agent)
+            // Handle incoming messages
+            socket.onmessage = function(message) {
+                // Decode the JSON
+                console.log("Got message " + message.data);
+                var data = JSON.parse(message.data);
+                var streamName = data.stream;
+                var payload = data.payload;
+                var agent_trim = payload.data.agent.trim();
+                console.log(agent_trim);
+                var webagent = agent_trim.slice(2,-1);
+                if (streamName == "logininfo") {
+                    // Handle different actions
+                    if (payload.action == "create") {
+                        console.log(agent);
+                        console.log(webagent);
+                        if (webagent == agent){
+                            console.log("Collins");
+                            url = decodeURIComponent("http://"+window.location.hostname+":8000/popup/console/"+agent.toString()+"/");
+                            url = url.replace(/\s/g, '');
+                            console.log(url);
+                            window.location.href = url;
+                        }
+                    } else if (payload.action == "update") {
+{#                        refresh();#}
+                    } else if (payload.action == "delete") {
+{#                        refresh();#}
+                    } else {
+                        console.log("Unknown action " + payload.action);
+                    }
+                } else {
+                    console.log("Unknown stream " + streamName);
+                }
+            };
+
+
+            // Helpful debugging
+
+            socket.onopen = function() { console.log("Connected to notification socket"); }
+            socket.onclose = function() { console.log("Disconnected to notification socket"); }
+        });
+    </script>
+{% endblock %}

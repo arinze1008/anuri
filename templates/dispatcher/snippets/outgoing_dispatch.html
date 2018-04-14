@@ -1,0 +1,49 @@
+{% load bootstrap_field from bootstrap3 %}
+
+
+
+<div class="row id_last_note">
+    <div class="col-sm-12 " >
+        {% bootstrap_field dispatch_form.last_note %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        {% bootstrap_field dispatch_form.status %}
+    </div>
+</div>
+<div class="row respondent" style="display: none">
+    <div class="col-sm-12">
+        {% bootstrap_field dispatch_form.respondent_location %}
+    </div>
+</div>
+<div class="row respondent"  style="display: none">
+    <div class="col-sm-6">
+        {% bootstrap_field dispatch_form.respondent_name %}
+    </div>
+    <div class="col-sm-6">
+        {% bootstrap_field dispatch_form.respondent_phone %}
+    </div>
+</div>
+<div class="row myreason"  style="display: none">
+    <div class="col-sm-12">
+        {% bootstrap_field dispatch_form.reason %}
+    </div>
+</div>
+
+<div class="row resolution" style="display: none">
+    <div class="col-sm-12">
+        {% bootstrap_field dispatch_form.resolution %}
+    </div>
+</div>
+<div class="row" >
+    <div class="col-sm-12 ">
+        {% bootstrap_field dispatch_form.note %}
+    </div>
+</div>
+<div class="row" style="display: none">
+    <div class="col-sm-12">
+        {% bootstrap_field dispatch_form.ticket_id %}
+    </div>
+</div>

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{##}
+{% load i18n %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-8 col-sm-push-2">
+        <form action="." method="post">
+            {% csrf_token %}
+            <h3><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> {% trans "UPDATE SIP EXTENSION: " %} <span style="color: darkorange">{{ ext.name }} </span></h3>
+            <button type="submit" class="btn btn-primary pull-right" style="margin-top: -39px;">
+              <span class="ion-checkmark-circled" aria-hidden="true"></span> {% trans "Save changes" %}</button>
+            <hr/>
+            {% include "extension/snippets/ext-form.html" %}
+            <p class="text-left">
+                <button type="submit" class="btn btn-primary"><span class="ion-checkmark-circled" aria-hidden="true"></span> {% trans "Save changes" %}</button>
+                <button type="submit" class="btn btn-warning">{% trans "Discard changes" %}</button>
+            </p>
+        </form>
+    </div>
+</div>
+{% endblock content %}

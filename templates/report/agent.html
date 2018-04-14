@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{##}
+{% load i18n %}
+{% load staticfiles %}
+{% block content %}
+
+<div class="row">
+  <div class="col-md-12">
+    <!-- Capture Complaint Form -->
+    <div class="widget">
+      <div class="widget-header clearfix">
+        <h3><i class="icon ion-android-call"></i> <span class="general-title">{% trans "Agent Utility" %}</span></h3>
+            <a href="{% url 'report:settings' %}" class="btn btn-primary" style="margin:3px 0 0 5px">
+                <i class="icon ion-ios-arrow-left"></i>  Click to Reset Settings </a>
+        <div class="btn-group widget-header-toolbar visible-lg">
+          <a href="#" title="Expand/Collapse" class="btn btn-link btn-toggle-expand"><i class="icon ion-ios-arrow-up"></i></a>
+        </div>
+      </div>
+     <div class="row">
+        <div class="col-sm-4">
+                <div class="quick-info boxed bg-orange quick-info2">
+                  <!--<i class="icon ion-arrow-graph-up-right"></i>-->
+                  <p><span> Start Date : </span><strong>{{start_date}}</strong> </p>
+                </div>
+			</div>
+
+              <div class="col-sm-4">
+                <div class="quick-info boxed bg-blue quick-info2">
+                    <!--<i class="icon ion-arrow-graph-up-right"></i>-->
+                    <p><span > End Date : </span><strong>{{end_date}}</strong> </p>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="quick-info boxed bg-green quick-info2">
+                    <!--<i class="icon ion-arrow-graph-up-right"></i>-->
+                    <p><span > No of Agents : </span><strong>{{agent_number}}</strong> </p>
+                </div>
+          </div>
+        </div>
+      <div class="widget-content table-responsive">
+        <div class="">
+          <table id="example3" class="display datagrid3" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th>Agent</th>
+                <th>Talk Time</th>
+                <th>Hold Time</th>
+                <th>Session Time</th>
+                <th>Wait Time</th>
+                <th>Answered</th>
+                <th>Unanswered</th>
+                <th>Total Call</th>
+                <th>Pause Time</th>
+                <th>Productivity</th>
+              </tr>
+            </thead>
+
+            <tbody>
+            {% for key, value in agent_report.iteritems %}
+                <tr>
+                <td>{{ key }}</td>
+                <td>{{ value.talktime }}</td>
+                <td>{{ value.holdtime }}</td>
+                <td>{{ value.timesession }}</td>
+                <td>{{ value.idle_time }}</td>
+                <td>{{ value.answered }}</td>
+                <td>{{ value.unanswered }}</td>
+                <td>{{ value.total }}</td>
+                <td>{{ value.pausetime }}</td>
+                <td>{{ value.sessionpercent }}</td>
+              </tr>
+
+        {% endfor %}
+
+            </tbody>
+          </table>
+         <table id="example4" class="display datagrid1" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th>Talk Time</th>
+                <th>Hold Time</th>
+                <th>Session Time</th>
+                <th>Wait Time</th>
+                <th>Answered</th>
+                <th>Unanswered</th>
+                <th>Total Call</th>
+                <th>Pause Time</th>
+                <th>Productivity</th>
+              </tr>
+            </thead>
+
+            <tbody>
+            {% for  key, value in agent_report_total.iteritems %}
+
+
+                <tr>
+                <td>{{ value.talktime }}</td>
+                <td>{{ value.holdtime }}</td>
+                <td>{{ value.timesession }}</td>
+                <td>{{ value.idle_time }}</td>
+                <td>{{ value.answered }}</td>
+                <td>{{ value.unanswered }}</td>
+                <td>{{ value.total }}</td>
+                <td>{{ value.pausetime }}</td>
+                <td>{{ value.sessionpercent }}</td>
+              </tr>
+
+        {% endfor %}
+
+            </tbody>
+          </table>
+            <table id="example4" class="display datagrid1" cellspacing="0" width="100%">
+                <thead>
+                  <tr>
+                    <th>Agent</th>
+                    <th>Lunch </th>
+                    <th>Breakfast</th>
+                    <th>Dinner</th>
+                    <th>Withdrawal</th>
+                    <th>Technical</th>
+                    <th>Rest Room</th>
+                    <th>Total Pause Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for  key, value in agent_break.iteritems %}
+
+                    <tr>
+                    <td>{{ key}}</td>
+                    <td>{{ value.launch }}</td>
+                    <td>{{ value.breakfast }}</td>
+                    <td>{{ value.dinner }}</td>
+                    <td>{{ value.withdrawal }}</td>
+                    <td>{{ value.technical }}</td>
+                    <td>{{ value.restroom }}</td>
+                    <td>{{ value.pause_time }}</td>
+                  </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+{% load i18n %}
+{% load staticfiles %}
+{% load permission_tags %}
+<!--[if IE 9 ]><html class="ie ie9" lang="en" class="no-js"> <![endif]-->
+<!--[if !(IE)]><!-->
+<html lang="en" class="no-js">
+<!--<![endif]-->
+
+<head>
+	<title>Call Taker</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="The Develovers">
+	<!-- CSS -->
+	<link href="{% static 'css/googleFont.css' %}" rel="stylesheet" type="text/css">
+	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css">
+	<link href="{% static 'css/ionicons.css'%}" rel="stylesheet" type="text/css">
+	<link href="{% static 'css/main.css'%}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/dataTables.css'%}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/dataTables2.css'%}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
+
+	<!-- Google Fonts -->
+	<!--<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,300,400,700' rel='stylesheet' type='text/css'>-->
+	<link rel="stylesheet" href="{% static 'django_tables2/themes/paleblue/css/screen.css' %}" />
+    <!-- Fav and touch icons -->
+	<link rel="apple-touch-icon-precomposed" type="image/png" sizes="144x144" href="assets/ico/queenadmin-favicon144x144.png">
+	<link rel="apple-touch-icon-precomposed" type="image/png" sizes="114x114" href="assets/ico/queenadmin-favicon114x114.png">
+	<link rel="apple-touch-icon-precomposed" type="image/png" sizes="72x72" href="assets/ico/queenadmin-favicon72x72.png">
+	<link rel="apple-touch-icon-precomposed" type="image/png" sizes="57x57" href="assets/ico/queenadmin-favicon57x57.png">
+	<link rel="shortcut icon" href="assets/ico/favicon.ico">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+
+{#    <script src="{% static 'js/jquery.js' %}"></script>#}
+    <script src="{% static 'js/jquery/jquery-2.1.0.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"> </script>
+    <script src="{% static 'js/highcharts.js' %}"></script>
+    <script src="{% static 'js/highcharts-more.js' %}"></script>
+    <script src="{% static 'js/exporting.js' %}"></script>
+    <script src="{% static "js/reconnecting-websocket.min.js" %}" type="text/javascript"></script>
+
+
+    {{ form.media }}
+    {% block report_header %}
+    {% endblock %}
+</head>
+
+<body class="fixed-top-active dashboard">
+	<!-- WRAPPER -->
+	<div class="wrapper">
+		<!-- TOP NAV BAR -->
+		<nav class="top-bar navbar-fixed-top" role="navigation">
+			<div class="logo-area">
+				<a href="#" id="btn-nav-sidebar-minified" class="btn btn-link btn-nav-sidebar-minified pull-left"><i class="icon ion-arrow-swap"></i></a>
+				<a class="btn btn-link btn-off-canvas pull-left"><i class="icon ion-navicon"></i></a>
+				<div class="logo pull-left">
+					<a href="index-2.html">
+						<img src="{% static 'img/call_taker.png'%}" alt="Call Taker" />
+					</a>
+				</div>
+			</div>
+            {% if  user.is_superuser %}
+                 <div style="color: #ffffff; font-size: 35px;font-weight: bolder; margin-left:247px">
+                 </div>
+            {% elif user|has_role:'dispatcher' %}
+                 <div style="color: #ffffff; font-size: 35px;font-weight: bolder; margin-left:247px">
+                  <i class="icon ion-monitor"></i> {{ user.profile.agency.name }} <span style="color:#DC143C">{{ ' Dispatcher' }}</span>
+            </div>
+            {% endif %}
+			<div class="top-bar-right pull-right">
+
+				<div class="logged-user">
+					<div class="btn-group">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href=".">{% blocktrans %}Hello, {{ user }}{% endblocktrans %} <b class="caret"></b></a>
+						<ul class="dropdown-menu" role="menu">
+                          {% if user.is_authenticated %}
+                                <li>
+                                    <a href="{% url "profile:details" %}">
+                                        <i class="icon ion-ios-person"></i>
+                                        <span class="text">{% trans "Your profile" %}</span>
+                                    </a>
+                                </li>
+
+                                {% if user.is_staff %}
+                                    <li class="divider"></li>
+                                    <li><a href="{% url "home" %}"><i class="icon ion-ios-gear"></i><span class="text">
+                                        {% trans "Dashboard" %}</span></a></li>
+                                {% endif %}
+                                <li><a href="{% url "registration:logout" %}"><i class="icon ion-power"></i>
+                                   <span class="text"> {% trans "Log out" %}</span></a></li>
+                                 {% else %}
+                                <li>
+                                    <a href="{% url "registration:login" %}"><i class="icon ion-ios-gear">
+                                    </i><span class="text">Sign in</span></a>
+                                </li>
+                                {% endif %}
+						</ul>
+					</div>
+				</div>
+
+			</div>
+		</nav>
+        {% if user.is_authenticated %}
+		<!-- END TOP NAV BAR -->
+		<!-- COLUMN LEFT -->
+		<div id="col-left" class="col-left">
+			<div class="main-nav-wrapper">
+				<nav id="main-nav" class="main-nav">
+					<h3><strong>MENU</strong></h3>
+					<ul class="main-menu">
+                        {% if  user|has_role:'admin' %}
+                        <li class="has-submenu">
+							<a href="#" class="submenu-toggle"><i class="icon ion-ios-gear"></i><span class="text">System</span></a>
+							<ul class="list-unstyled sub-menu collapse">
+								<li><a href="{% url "home" %}"><i class="icon ion-ios-speedometer-outline"></i><span class="text">Dashboard</span></a></li>
+								<li><a href="{% url 'admin:index' %}"><i class="icon ion-ios-cog-outline"></i><span class="text">Administration</span></a></li>
+                                <li><a href="{% url 'ext:hoax-manage' %}"><i class="icon ion-ios-pulse-strong"></i><span class="text">Manage Hoax</span></a></li>
+
+                            </ul>
+						</li>
+            <li class="has-submenu">
+							<a href="#" class="submenu-toggle"><i class="ion-android-call"></i><span class="text">PBX</span></a>
+							<ul class="list-unstyled sub-menu collapse">
+								<li><a href="{% url "ext:ext-manage" %}"><i class="icon ion-ios-skipforward"></i><span class="text">SIP Extension</span></a></li>
+								<li><a href="{% url "profile:user-manage" %}"><i class="icon ion-person-stalker"></i><span class="text">Manage Users</span></a></li>
+                                <li><a href="{% url "ext:agent-manage" %}"><i class="icon ion-person-stalker"></i><span class="text">Manage Agents</span></a></li>
+
+                           </ul>
+						</li>
+                        {% endif %}
+                        {% if  user|has_role:'supervisor' %}
+              <li class="has-submenu">
+							<a href="#" class="submenu-toggle"><i class="ion-headphone"></i><span class="text">Call Center</span></a>
+							<ul class="list-unstyled sub-menu collapse">
+								<li><a href="{% url "popup:supervisor" %}"><i class="icon ion-monitor"></i><span class="text">Supervisor Dashboard</span></a></li>
+							</ul>
+                            <ul class="list-unstyled sub-menu collapse">
+								<li><a href="{% url "popup:popup-create" %}"><i class="icon ion-person-add"></i><span class="text">Create PopUp</span></a></li>
+							</ul>
+						</li>
+                            {% endif %}
+                        {% if  user|has_role:'dispatcher' %}
+                        <li class="has-submenu">
+							<a href="#" class="submenu-toggle"><i class="ion-earth"></i><span class="text">Dispatcher</span></a>
+							<ul class="list-unstyled sub-menu collapse">
+								<li><a href="{% url "dispatcher:incidence" %}"><i class="icon ion-laptop"></i><span class="text">Dispatcher Dashboard</span></a></li>
+							</ul>
+                            <ul class="list-unstyled sub-menu collapse">
+								<li><a href="{% url "dispatcher:agency_dispatch" %}"><i class="icon ion-podium"></i><span class="text">Agency Dispatch</span></a></li>
+							</ul>
+                            <ul class="list-unstyled sub-menu collapse">
+								<li><a href="{% url "dispatcher:agency_incidence" %}"><i class="icon ion-podium"></i><span class="text">Agency Incidences</span></a></li>
+							</ul>
+						</li>
+                            {% endif %}
+
+                        <li class="has-submenu">
+							<a href="#" class="submenu-toggle"><i class="ion-stats-bars"></i><span class="text">CDR Reporting</span></a>
+                            {% if  user|has_role:'supervisor' %}
+							<ul class="list-unstyled sub-menu collapse">
+								<li><a href="{% url "report:all-call" %}"><i class="icon ion-ios-paper-outline"></i><span class="text">Call Summary</span></a></li>
+							</ul>
+                            <ul class="list-unstyled sub-menu collapse">
+								<li><a href="{% url "report:general-report" %}"><i class="icon ion-flash"></i><span class="text">CDR Calls</span></a></li>
+							</ul>
+
+
+                            {% endif %}
+
+						</li>
+                        <li class="has-submenu">
+							<a href="#" class="submenu-toggle"><i class="ion-stats-bars"></i><span class="text">Queue Reporting</span></a>
+                            {% if  user|has_role:'supervisor' %}
+                            <ul class="list-unstyled sub-menu collapse">
+								<li><a href="{% url "report:settings" %}"><i class="icon ion-ios-paper-outline"></i><span class="text">Report Setting</span></a></li>
+							</ul>
+							<ul class="list-unstyled sub-menu collapse">
+								<li><a href="{% url "report:distribution" %}"><i class="icon ion-ios-paper-outline"></i><span class="text">Call Distribution</span></a></li>
+							</ul>
+                            <ul class="list-unstyled sub-menu collapse">
+								<li><a href="{% url "report:answered" %}"><i class="icon ion-flash"></i><span class="text">Answered Call</span></a></li>
+							</ul>
+                            <ul class="list-unstyled sub-menu collapse">
+								<li><a href="{% url "report:unanswered" %}"><i class="icon ion-clipboard"></i><span class="text">Unanswered Call</span></a></li>
+							</ul>
+                            <ul class="list-unstyled sub-menu collapse">
+								<li><a href="{% url "report:agent_report" %}"><i class="icon ion-clipboard"></i><span class="text">Agent Utility</span></a></li>
+							</ul>
+                            <ul class="list-unstyled sub-menu collapse">
+								<li><a href="{% url "report:agent_dashboard" %}"><i class="icon ion-clipboard"></i><span class="text">Agent Dashboard</span></a></li>
+							</ul>
+                              <ul class="list-unstyled sub-menu collapse">
+								<li><a href="{% url "report:case_report" %}"><i class="icon ion-clipboard"></i><span class="text">Case Report</span></a></li>
+							</ul>
+                                <ul class="list-unstyled sub-menu collapse">
+								<li><a href="{% url "report:recorded_calls" %}"><i class="icon ion-clipboard"></i><span class="text">Call Recording</span></a></li>
+							</ul>
+                            {% endif %}
+						</li>
+					</ul>
+
+				</nav>
+			</div>
+		</div>
+        {% endif %}
+		<!-- END COLUMN LEFT -->
+		<!-- COLUMN RIGHT -->
+    }
+		<div id="col-right" class="col-right ">
+			<div class="container-fluid primary-content">
+                <div class="headline bottom-30px">
+                {% block content %}
+
+                {% endblock %}
+                </div>
+			</div>
+		</div>
+		<!-- END COLUMN RIGHT -->
+	</div>
+	<!-- END WRAPPER -->
+	<!-- Javascript -->
+
+	<script src="{% static 'js/jquery/jquery-2.1.0.min.js' %}"></script>
+	<script src="{% static 'js/bootstrap/bootstrap.js' %}"></script>
+	<script src="{% static 'js/queen-form-layouts.js' %}"></script>
+    <script src="{% static 'js/dropdown.js' %}"></script>
+    <script src="{% static 'js/plugins/bootstrap-multiselect/bootstrap-multiselect.js' %}"></script>
+	<script src="{% static 'js/plugins/jquery-slimscroll/jquery.slimscroll.min.js' %}"></script>
+	<script src="{% static 'js/queen-common.js' %}"></script>
+	<script src="{% static 'js/plugins/parsley-validation/parsley.min.js' %}"></script>
+	<script src="{% static 'js/queen-elements.js' %}"></script>
+		<script src="{% static 'js/anuri_ajax.js' %}"></script>
+        <script src="{% static 'js/table.js' %}"></script>
+
+
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+
+
+    <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'js/buttons.flash.min.js' %}"></script>
+    <script src="{% static 'js/jszip.min.js' %}"></script>
+    <script src="{% static 'js/pdfmake.min.js' %}"></script>
+    <script src="{% static 'js/vfs_fonts.js' %}"></script>
+    <script src="{% static 'js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'js/buttons.print.min.js' %}"></script>
+
+
+</body>
+
+
+</html>

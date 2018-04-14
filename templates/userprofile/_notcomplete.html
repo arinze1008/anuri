@@ -1,0 +1,35 @@
+<div class="widget widget-no-header widget-transparent">
+    <div class="widget-content">
+
+    <h3 class="sr-only">QUICK SUMMARY INFO BOXED STLYE</h3>
+    <div class="row">
+        <div class="alert alert-success fade in">
+            <button class="close" data-dismiss="alert">&times;</button>
+            <i class="icon ion-checkmark-circled"></i>
+            <strong>Welcome!</strong> Please click on button below to update your profile to enable you register your courses
+        </div>
+        <div class="col-sm-6">
+            {% if profile.user %}
+            <a href="{% url 'profile:profile-edit' pk=user.pk%}" class="btn btn-default">
+            <div class="quick-info boxed bg-blue">
+                <i class="icon ion-person-stalker"></i>
+                <p>UPDATE <span>PROFILE</span></p>
+                {{ profile.first_name }}
+            </div>
+            </a>
+            {% else %}
+                <a href="{% url 'profile:profile-create' %}" class="btn btn-default">
+                <div class="quick-info boxed bg-blue">
+                    <i class="icon ion-person-stalker"></i>
+                    <p>UPDATE <span>PROFILE</span></p>
+                    {{ profile.first_name }}
+                </div>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <br/>
+    <hr />
+
+</div>
+    </div>

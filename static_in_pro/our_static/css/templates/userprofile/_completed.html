@@ -1,0 +1,47 @@
+<div class="widget widget-no-header widget-transparent">
+    <div class="widget-content">
+
+    <div class="row">
+        <div class="alert alert-success fade in">
+            <button class="close" data-dismiss="alert">&times;</button>
+            <i class="icon ion-checkmark-circled"></i>
+            <strong>Welcome!</strong> Please click on any of the button below to continue
+        </div>
+        <a href="{% url 'profile:profile-create' %}" >
+        <div class="col-sm-3">
+            <div class="quick-info boxed bg-orange">
+                <i class="icon ion-cash"></i>
+                <p> MAKE<span> PAYMENT </span></p>
+            </div>
+        </div>
+        </a>
+        <a href="{% url 'profile:profile-create' %}">
+        <div class="col-sm-3">
+            <div class="quick-info boxed bg-green">
+                <i class="icon ion-arrow-graph-up-right"></i>
+                <p>REGISTER <span>COURSES</span></p>
+            </div>
+        </div>
+        </a>
+        <a href="{% url 'profile:profile-create' %}">
+        <div class="col-sm-3">
+            <div class="quick-info boxed bg-blue">
+                <i class="icon ion-email"></i>
+                <p>ORDER <span>TRANSCRIPT</span></p>
+            </div>
+        </div>
+        </a>
+        <a href="{% url 'profile:profile-edit'  pk=profile.id%}">
+        <div class="col-sm-3">
+            <div class="quick-info boxed bg-blue">
+                <i class="ion-person-stalker"></i>
+                <p>EDIT <span>PROFILE</span></p>
+            </div>
+        </div>
+        </a>
+    </div>
+    <br/>
+    <hr />
+
+</div>
+    </div>

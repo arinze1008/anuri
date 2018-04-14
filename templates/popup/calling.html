@@ -1,0 +1,96 @@
+{% extends "base_console2.html" %}
+{##}
+{% load i18n %}
+{% load staticfiles %}
+{% block content %}
+
+<div class="row">
+  <div class="col-md-12">
+    <!-- Capture Complaint Form -->
+    <div class="widget">
+      <div class="widget-header clearfix">
+        <h3><i class="icon ion-android-volume-up"></i> <span class="general-title">{% trans "ONGOING CALLS" %}</span></h3>
+        <div class="btn-group widget-header-toolbar visible-lg">
+          <a href="#" title="Expand/Collapse" class="btn btn-link btn-toggle-expand"><i class="icon ion-ios-arrow-up"></i></a>
+          <!-- <a href="#" title="Remove" class="btn btn-link btn-remove"><i class="icon ion-ios-close-empty"></i></a> -->
+        </div>
+      </div>
+      <div class="widget-content table-responsive">
+        <div class="">
+          <table id="example" class="display" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th> <i class="ion-android-phone-portrait"></i>&ensp;Agent Name</th>
+                    <th><i class="ion-ios-person"></i>&ensp;Agent ID</th>
+                    <th> <i class="icon ion-power"></i>&ensp;Status</th>
+                    <th> <i class="icon ion-ios-time"></i> Call Duration</th>
+                    <th>Action <i class="icon ion-chevron-down"></i></th>
+                </tr>
+            </thead>
+          <tfoot>
+                <tr>
+                    <th> <i class="ion-android-phone-portrait"></i>&ensp;Agent Name</th>
+                    <th><i class="ion-ios-person"></i>&ensp;Agent ID</th>
+                    <th> <i class="icon ion-power"></i>&ensp;Status</th>
+                    <th> <i class="icon ion-ios-time"></i> Call Duration</th>
+                    <th>Action <i class="icon ion-chevron-down"></i></th>
+                </tr>
+            </tfoot>
+            <tbody>
+            {% for channel in channels %}
+                {% if channel.Application == "AgentLogin" and channel.ChannelStateDesc == "Up" and channel.BridgedChannel|length > 0 %}
+                <tr>
+                <td>
+                        {{ channel.CallerIDname }}
+                    </td>
+                    <td>
+                        {{ "Agent/"|add:channel.ApplicationData }}
+                    </td>
+                    <td>
+                        <span class="label label-success"><i class="icon ion-headphone"></i>&ensp;
+                    <strong>On Call ...</strong></span></td>
+                    <td>
+                        <span class="label label-danger"><i class="icon ion-android-time"></i>&ensp;<strong>
+                        {{ channel.Duration }}</strong></span>
+                    </td>
+                    <td>
+                        <a href="#" title="Spy" data-toexten="{{ channel.ConnectedLineNum }}" data-fromexten="{{ exten }}" id ='spy' class="btn btn-info"><i class="icon ion-eye"></i></a>
+                        <a href="#" title="Whisper" data-toexten="{{ channel.ConnectedLineNum }}" data-fromexten="{{ exten }}" id ='whisper' class="btn btn-danger"><i class="icon ion-android-happy"></i></a>
+                        <a href="#" title="Barge" data-toexten="{{ channel.ConnectedLineNum }}" data-fromexten="{{ exten }}" id ='barge' class="btn btn-primary"><i class="icon ion-arrow-graph-up-right"></i></a>
+                    </td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+    <!-- End of Capture Complaint Form -->
+  </div>
+</div>
+
+
+<!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h1 class="modal-title" id="myModalLabel"> </h1>
+          </div>
+          <div class="modal-body">
+
+          </div>
+{#          <div class="modal-footer">#}
+{#            <button type="button"  class="btn btn-primary">Hang Up</button>#}
+{#          </div>#}
+        </div>
+      </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+

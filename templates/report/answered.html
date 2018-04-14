@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+{% load list_tag %}
+
+    <div class="row">
+        <div class="col-sm-12" style="margin:10px 0 0 0">
+            <a href="{% url 'report:settings' %}" class="btn btn-primary"><i class="icon ion-ios-arrow-left"></i> Click to Reset Settings </a>
+        </div>
+    </div>
+
+    <div class="widget-content">
+    <br/>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="quick-info boxed bg-orange quick-info2">
+              <!--<i class="icon ion-arrow-graph-up-right"></i>-->
+              <p><span> Start Date : </span><strong>{{start_date}}</strong> </p>
+            </div>
+        </div>
+
+          <div class="col-sm-4">
+            <div class="quick-info boxed bg-blue quick-info2">
+                <!--<i class="icon ion-arrow-graph-up-right"></i>-->
+                <p><span > End Date : </span><strong>{{end_date}}</strong> </p>
+            </div>
+          </div>
+        <div class="col-sm-4">
+            <div class="quick-info boxed bg-green quick-info2">
+                <!--<i class="icon ion-arrow-graph-up-right"></i>-->
+                <p><span > No of Agents : </span><strong>{{agent_number}}</strong> </p>
+            </div>
+      </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="widget">
+                <div id="highchart-1" style="height: 300px"></div>
+            </div>
+        </div>
+    </div>
+    <div class="widget-content table-responsive">
+        <div class="">
+          <table id="example4" class="display datagrid4" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th>Duration</th>
+                <th>Hold Time Count</th>
+                <th>Call Time Count</th>
+              </tr>
+            </thead>
+
+            <tbody>
+            {% for  value in duration_t %}
+              <tr>
+                <td>{{ categories|lookup:value  }}</td>
+                <td>{{ ans_time_period|lookup:value }}</td>
+                <td>{{ call_time_period|lookup:value  }}</td>
+              </tr>
+
+        {% endfor %}
+
+            </tbody>
+          </table>
+        </div>
+     </div>
+</div>
+
+    <script type='text/javascript'>
+    var dataset;
+
+    dataset = {
+      "chart": {
+            "type": 'column'
+        },
+      "title": {
+        "text": 'Answered Call Analysis'
+        },
+      "subtitle": {
+        "text": 'Source: CallTaker.com'
+        },
+      "xAxis": {
+            "categories": [
+                    {% for t in categories %}
+                        {% if not forloop.first %}, {% endif %}
+                        "{{ t }}"
+                    {% endfor %}
+            ],
+            "crosshair": true
+        },
+        "yAxis": {
+            "min": 0,
+            "title": {
+                "text": 'Number'
+            }
+        },
+        "tooltip": {
+            "headerFormat": '<span style="font-size:10px">{point.key}</span><table>',
+            "pointFormat": '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} times</b></td></tr>',
+            "footerFormat": '</table>',
+            "shared": true,
+            "useHTML": true
+        },
+        "plotOptions": {
+            "column": {
+                "pointPadding": 0.2,
+                "borderWidth": 0
+            }
+        },
+
+        "series": [{
+            "name": 'Hold Time Range Occurences',
+            "data": {{ ans_time_period }}
+
+        },{
+            "name": 'Call Time Range Occurences',
+            "data": {{ call_time_period }}
+
+        }]
+
+    };
+
+    $('#highchart-1').highcharts(dataset);
+  </script>
+{% endblock %}

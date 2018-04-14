@@ -1,0 +1,501 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load i18n %}
+{% load list_tag %}
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-12" style="margin:10px 0 0 0">
+            <a href="{% url 'report:settings' %}" class="btn btn-primary"><i class="icon ion-ios-arrow-left"></i> Click to Reset Settings </a>
+        </div>
+    </div>
+
+    <div class="widget-content">
+    <br/>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget-header clearfix">
+                <h3><i class="icon ion-stats-bars"></i> <span class="general-title">{% trans "Distribution Summary" %}</span></h3>
+                <!--<div class="btn-group widget-header-toolbar visible-lg">
+                  <a href="#" title="Expand/Collapse" class="btn btn-link btn-toggle-expand"><i class="icon ion-ios-arrow-up"></i></a>
+                </div>-->
+              </div>
+             <div class="col-sm-4">
+                <div class="quick-info boxed bg-orange quick-info2">
+                  <!--<i class="icon ion-arrow-graph-up-right"></i>-->
+                  <p><span> Start Date : </span><strong>{{start_date}}</strong> </p>
+                </div>
+			</div>
+
+              <div class="col-sm-4">
+                <div class="quick-info boxed bg-blue quick-info2">
+                    <!--<i class="icon ion-arrow-graph-up-right"></i>-->
+                    <p><span > End Date : </span><strong>{{end_date}}</strong> </p>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="quick-info boxed bg-green quick-info2">
+                    <!--<i class="icon ion-arrow-graph-up-right"></i>-->
+                    <p><span > No of Agents : </span><strong>{{agent_number}}</strong> </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="widget">
+                <div id="highchart-0" style="height: 400px"></div>
+            </div>
+        </div>
+         <div class="col-md-6">
+            <!-- Capture Complaint Form -->
+            <div class="widget">
+              <div class="widget-header clearfix">
+{#                <h3><i class="icon ion-android-call"></i> <span class="general-title">{% trans "Total Calls" %}</span></h3>#}
+
+              </div>
+              <div class="widget-content table-responsive">
+                <div class="">
+                  <table id="example4" class="display tabDisplay" cellspacing="0" width="100%">
+                    <thead>
+                      <tr>
+                        <th><i class="icon ion-ios-download-outline"> </i>Description</th>
+                        <th><i class="icon ion-android-pin"> </i>Values</th>
+
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                            <tr>
+                                <td>Number of Received Calls:</td>
+                                <td>{{ total_call}}</td>
+
+                            </tr>
+                            <tr>
+                                <td>Number of Answered Calls:</td>
+                                <td>{{ answered}}</td>
+
+                            </tr>
+                            <tr>
+                                <td>Number of Unanswered Calls:</td>
+                                <td>{{unanswered}}</td>
+
+                            </tr>
+                            <tr>
+                                <td>Number of Abandoned Calls:</td>
+                                <td>{{abandoned}}</td>
+
+                            </tr>
+
+                            <tr>
+                                <td>Answered Rate:</td>
+                                <td>{{answered_rate}}</td>
+
+                            </tr>
+                            <tr>
+                                <td>Unanswered Rate:</td>
+                                <td>{{unanswered_rate}}</td>
+
+                            </tr>
+                            <tr>
+                                <td>Abandon Rate:</td>
+                                <td>{{abandon_rate}}</td>
+
+                            </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget">
+                <div id="highchart-1" style="height: 300px"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget">
+                <div id="highchart-2" style="height: 300px"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="widget-content table-responsive">
+        <div class="">
+          <table id="example3" class="display datagrid3" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th>Period</th>
+                <th>Received</th>
+                <th>Answered</th>
+                <th>Unanswered</th>
+                <th>Transferred</th>
+                <th>Abandoned</th>
+                <th>Hold Time</th>
+                <th>Wait Time</th>
+              </tr>
+            </thead>
+
+            <tbody>
+            {% for  value in time_period %}
+              <tr>
+                <td>{{ categories|lookup:value  }}</td>
+                <td>{{ data_received|lookup:value }}</td>
+                <td>{{ data_answered|lookup:value  }}</td>
+                <td>{{ data_unanswered|lookup:value  }}</td>
+                <td>{{ data_transferred|lookup:value  }}</td>
+                <td>{{ data_abandoned|lookup:value  }}</td>
+                <td>{{ data_total_hold_by_hr1|lookup:value  }}</td>
+                <td>{{ data_total_talktime_by_hr1|lookup:value  }}</td>
+              </tr>
+
+        {% endfor %}
+
+            </tbody>
+          </table>
+        </div>
+     </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="widget">
+                <div id="highchart-3" style="height: 300px"></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="widget">
+                <div id="highchart-4" style="height: 300px"></div>
+            </div>
+        </div>
+    </div>
+    <div class="widget-content table-responsive">
+        <div class="">
+          <table id="example4" class="display datagrid4" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th>Period</th>
+                <th>Received</th>
+                <th>Answered</th>
+                <th>Unanswered</th>
+                <th>Transferred</th>
+                <th>Abandoned</th>
+                <th>Hold Time</th>
+                <th>Wait Time</th>
+              </tr>
+            </thead>
+
+            <tbody>
+            {% for  value in day_period %}
+              <tr>
+                <td>{{ categories_day_week|lookup:value  }}</td>
+                <td>{{ data_received_by_day_week|lookup:value }}</td>
+                <td>{{ data_answered_by_day_week|lookup:value  }}</td>
+                <td>{{ data_unanswered_by_day_week|lookup:value  }}</td>
+                <td>{{ data_transferred_by_day_week|lookup:value  }}</td>
+                <td>{{ data_abandoned_by_day_week|lookup:value  }}</td>
+                <td>{{ data_total_hold_by_day_week1|lookup:value  }}</td>
+                <td>{{ data_total_time_by_day_week1|lookup:value  }}</td>
+              </tr>
+
+        {% endfor %}
+
+            </tbody>
+          </table>
+        </div>
+     </div>
+</div>
+  <script type='text/javascript'>
+    var dataset;
+
+    dataset = {
+      "chart": {
+        "type": "pie",
+        "plotBackgroundColor": null,
+        "plotBorderWidth": null,
+        "plotShadow": false
+      },
+
+      "title": {
+        "text": "{{ "Percentage of Calls" }}"
+      },
+
+      "series": [{
+        "name": "Calls",
+        "colorByPoint": true,
+        "data": [ {
+                    name: 'Answered Call',
+                    y: {{ answered }},
+                    sliced: true,
+                    selected: true
+                }, {
+                    name: 'Unanswered Call',
+                    y: {{ unanswered }}
+                }]
+      }],
+
+      "tooltip": {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+      "plotOptions": {
+        "pie": {
+          "showInLegend": true,
+          "allowPointSelect": true,
+          "cursor": "pointer",
+          "dataLabels": {
+            "enabled": true,
+            "format": '<b>{point.name}</b>: {point.percentage:.1f} %',
+            "style": {
+                "color": (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+            }
+          }
+        }
+      }
+    };
+
+    $('#highchart-0').highcharts(dataset);
+  </script>
+    <script type='text/javascript'>
+    var dataset;
+
+    dataset = {
+      "chart": {
+            "type": 'column'
+        },
+      "title": {
+        "text": 'Hourly Distribution of Answered and Unanswered Calls'
+        },
+      "subtitle": {
+        "text": 'Source: CallTaker.com'
+        },
+      "xAxis": {
+            "categories": [
+                    {% for t in categories %}
+                        {% if not forloop.first %}, {% endif %}
+                        "{{ t }}"
+                    {% endfor %}
+            ],
+            "crosshair": true
+        },
+        "yAxis": {
+            "min": 0,
+            "title": {
+                "text": 'Number'
+            }
+        },
+        "tooltip": {
+            "headerFormat": '<span style="font-size:10px">{point.key}</span><table>',
+            "pointFormat": '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} times</b></td></tr>',
+            "footerFormat": '</table>',
+            "shared": true,
+            "useHTML": true
+        },
+        "plotOptions": {
+            "column": {
+                "pointPadding": 0.2,
+                "borderWidth": 0
+            }
+        },
+
+        "series": [{
+            "name": 'Answered Calls',
+            "data": {{ data_answered }}
+
+        },
+        {
+            "name": 'Unanswered Calls',
+            "data": {{ data_unanswered }}
+
+        }
+        ]
+
+    };
+
+    $('#highchart-1').highcharts(dataset);
+  </script>
+
+    <script type='text/javascript'>
+    var dataset;
+
+    dataset = {
+      "chart": {
+            "type": 'column'
+        },
+      "title": {
+        "text": 'Hourly Distribution of Total Hold Time and Total Call Time'
+        },
+      "subtitle": {
+        "text": 'Source: CallTaker.com'
+        },
+      "xAxis": {
+            "categories": [
+                    {% for t in categories %}
+                        {% if not forloop.first %}, {% endif %}
+                        "{{ t }}"
+                    {% endfor %}
+            ],
+            "crosshair": true
+        },
+        "yAxis": {
+            "min": 0,
+            "title": {
+                "text": 'Seconds'
+            }
+        },
+        "tooltip": {
+            "headerFormat": '<span style="font-size:10px">{point.key}</span><table>',
+            "pointFormat": '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} times</b></td></tr>',
+            "footerFormat": '</table>',
+            "shared": true,
+            "useHTML": true
+        },
+        "plotOptions": {
+            "column": {
+                "pointPadding": 0.2,
+                "borderWidth": 0
+            }
+        },
+
+        "series": [{
+            "name": 'Total Hold Time',
+            "data": {{ data_total_hold_by_hr }}
+
+        },
+        {
+            "name": 'Total Talk Time',
+            "data": {{ data_total_talktime_by_hr }}
+
+        },
+        ]
+
+    };
+
+    $('#highchart-2').highcharts(dataset);
+  </script>
+
+     <script type='text/javascript'>
+    var dataset;
+
+    dataset = {
+      "chart": {
+            "type": 'column'
+        },
+      "title": {
+        "text": 'Daily Distribution of Answered and Unanswered Calls'
+        },
+      "subtitle": {
+        "text": 'Source: CallTaker.com'
+        },
+      "xAxis": {
+            "categories": [
+                    {% for t in categories_day_week %}
+                        {% if not forloop.first %}, {% endif %}
+                        "{{ t }}"
+                    {% endfor %}
+            ],
+            "crosshair": true
+        },
+        "yAxis": {
+            "min": 0,
+            "title": {
+                "text": 'Seconds'
+            }
+        },
+        "tooltip": {
+            "headerFormat": '<span style="font-size:10px">{point.key}</span><table>',
+            "pointFormat": '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} seconds</b></td></tr>',
+            "footerFormat": '</table>',
+            "shared": true,
+            "useHTML": true
+        },
+        "plotOptions": {
+            "column": {
+                "pointPadding": 0.2,
+                "borderWidth": 0
+            }
+        },
+
+        "series": [{
+            "name": 'Total Answered by Day of Week',
+            "data": {{ data_answered_by_day_week }}
+
+        },
+        {
+            "name": 'Total Unanswered by Day of Week',
+            "data": {{ data_unanswered_by_day_week }}
+
+        },
+        ]
+
+    };
+
+    $('#highchart-3').highcharts(dataset);
+  </script>
+     <script type='text/javascript'>
+    var dataset;
+
+    dataset = {
+      "chart": {
+            "type": 'column'
+        },
+      "title": {
+        "text": 'Daily Distribution of Total Hold Time and Total Call Time'
+        },
+      "subtitle": {
+        "text": 'Source: CallTaker.com'
+        },
+      "xAxis": {
+            "categories": [
+                    {% for t in categories_day_week %}
+                        {% if not forloop.first %}, {% endif %}
+                        "{{ t }}"
+                    {% endfor %}
+            ],
+            "crosshair": true
+        },
+        "yAxis": {
+            "min": 0,
+            "title": {
+                "text": 'Seconds'
+            }
+        },
+        "tooltip": {
+            "headerFormat": '<span style="font-size:10px">{point.key}</span><table>',
+            "pointFormat": '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} seconds</b></td></tr>',
+            "footerFormat": '</table>',
+            "shared": true,
+            "useHTML": true
+        },
+        "plotOptions": {
+            "column": {
+                "pointPadding": 0.2,
+                "borderWidth": 0
+            }
+        },
+
+        "series": [{
+            "name": 'Total Hold Time',
+            "data": {{ data_total_hold_by_day_week }}
+
+        },
+        {
+            "name": 'Total Talk Time',
+            "data": {{ data_total_time_by_day_week }}
+
+        },
+        ]
+
+    };
+
+    $('#highchart-4').highcharts(dataset);
+  </script>
+{% endblock %}

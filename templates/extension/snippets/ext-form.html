@@ -1,0 +1,75 @@
+{% load bootstrap_field from bootstrap3 %}
+
+<div class="row">
+    <div class="col-sm-6">
+        {% bootstrap_field ext_form.name %}
+    </div>
+    <div class="col-sm-6">
+        {% bootstrap_field ext_form.extension %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-6">
+        {% bootstrap_field ext_form.type %}
+    </div>
+    <div class="col-sm-6">
+        {% bootstrap_field ext_form.secret %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        {% bootstrap_field ext_form.username %}
+    </div>
+    <div class="col-sm-6">
+        {% bootstrap_field ext_form.host %}
+    </div>
+</div>
+<h3><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Device Options</h3>
+<hr/>
+<div class="row">
+    <div class="col-sm-6">
+        {% bootstrap_field ext_form.fromuser %}
+    </div>
+    <div class="col-sm-6">
+        {% bootstrap_field ext_form.fromdomain %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        {% bootstrap_field ext_form.canreinvite %}
+    </div>
+    <div class="col-sm-6">
+        {% bootstrap_field ext_form.insecure %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        {% bootstrap_field ext_form.qualify %}
+    </div>
+    <div class="col-sm-6">
+        {% bootstrap_field ext_form.nat %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        {% bootstrap_field ext_form.context %}
+    </div>
+    <div class="col-sm-6">
+        {% bootstrap_field ext_form.bindport %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        {% bootstrap_field ext_form.srvlookup %}
+    </div>
+    <div class="col-sm-6">
+        {% bootstrap_field ext_form.disallow %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        {% bootstrap_field ext_form.allow %}
+    </div>
+
+</div>

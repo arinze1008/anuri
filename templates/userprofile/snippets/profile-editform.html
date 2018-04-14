@@ -1,0 +1,37 @@
+{% load bootstrap_field from bootstrap3 %}
+{% bootstrap_field profile_form.user %}
+<div class="row">
+    <div class="col-sm-6">
+        {% bootstrap_field profile_form.first_name %}
+    </div>
+    <div class="col-sm-6">
+        {% bootstrap_field profile_form.last_name %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-6">
+        {% bootstrap_field profile_form.callgroup %}
+    </div>
+    <div class="col-sm-6">
+        {% bootstrap_field profile_form.phone %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-6">
+        {% bootstrap_field profile_form.role %}
+    </div>
+        <div class="col-sm-6">
+        {% bootstrap_field profile_form.password %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        {% bootstrap_field profile_form.extension %}
+    </div>
+    <div class="col-sm-6 agency" style="display: none">
+        {% bootstrap_field profile_form.agency %}
+    </div>
+
+</div>

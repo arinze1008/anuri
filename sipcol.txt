@@ -1,0 +1,126 @@
+[Collins]
+type = peer
+callerid = Collins <101>
+username = Collins
+host = dynamic
+secret = bright1008
+canreinvite = no
+insecure = invite,port
+qualify = bright1008
+nat = yes
+context = from-internal
+bindport = 5060
+srvlookup = yes
+disallow = all
+allow = ulaw
+allow = alaw
+allow = gsm
+
+[Arinze]
+type = peer
+callerid = Arinze <202>
+username = Arinze
+host = dynamic
+secret = bright1008
+canreinvite = no
+insecure = invite,port
+qualify = bright1008
+nat = yes
+context = from-internal
+bindport = 5060
+srvlookup = yes
+disallow = all
+allow = ulaw
+allow = alaw
+allow = gsm
+
+[Eze]
+type = peer
+callerid = Eze <303>
+username = Eze
+host = dynamic
+secret = bright1008
+canreinvite = no
+insecure = invite,port
+qualify = bright1008
+nat = yes
+context = from-internal
+bindport = 5060
+srvlookup = yes
+disallow = all
+allow = ulaw
+allow = alaw
+allow = gsm
+
+[404]
+type = peer
+callerid = Chidera <404>
+username = 404
+host = dynamic
+secret = bright1008
+canreinvite = no
+insecure = invite,port
+qualify = bright1008
+nat = yes
+context = from-internal
+bindport = 5060
+srvlookup = yes
+disallow = all
+allow = ulaw
+allow = alaw
+allow = gsm
+
+[ugo]
+type = peer
+callerid = Ugo <505>
+username = ugo
+host = dynamic
+secret = 111
+canreinvite = no
+insecure = invite,port
+qualify = 111
+nat = yes
+context = from-internal
+bindport = 5060
+srvlookup = yes
+disallow = all
+allow = ulaw
+allow = alaw
+allow = gsm
+
+[Dozi]
+type = peer
+callerid = Dozi <606>
+username = Dozi
+host = dynamic
+secret = 111
+canreinvite = no
+insecure = invite,port
+qualify = 111
+nat = yes
+context = from-internal
+bindport = 5060
+srvlookup = yes
+disallow = all
+allow = ulaw
+allow = alaw
+allow = gsm
+
+[uzo]
+type = peer
+callerid = Uzo <808>
+username = uzo
+host = dynamic
+secret = bright1008
+canreinvite = no
+insecure = invite,port
+qualify = bright1008
+nat = yes
+context = from-internal
+bindport = 5060
+srvlookup = yes
+disallow = all
+allow = ulaw
+allow = alaw
+allow = gsm
+

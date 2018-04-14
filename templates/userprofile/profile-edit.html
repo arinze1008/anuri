@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{##}
+{% load i18n %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-8 col-sm-push-2">
+        <form action="." method="post">
+            {% csrf_token %}
+            <h3><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> {% trans "UPDATE USER: " %} <span style="color: darkorange">{{ profile.user.email }} </span></h3>
+            <hr/>
+            {% include "userprofile/snippets/profile-editform.html" %}
+            <p class="text-left">
+                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-saved" aria-hidden="true"></span> {% trans "Save changes" %}</button>
+                <button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> {% trans "Discard changes" %}</button>
+            </p>
+        </form>
+    </div>
+</div>
+{% endblock content %}

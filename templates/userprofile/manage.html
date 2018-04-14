@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load render_table from django_tables2 %}
+{% load static %}
+
+{% block content %}
+
+    <p class="text-left" style="margin: 5px">
+        <a href="{% url 'profile:profile-create' %}" class="btn btn-primary submit_btn" style="margin-top: 10px">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {% trans "Add New User " %}</a>
+    </p>
+     <hr/>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <div class="alert alert-success fade in">
+                <button class="close" data-dismiss="alert">&times;</button>
+                <i class="icon ion-checkmark-circled"></i>
+                <strong>Well done!</strong> {% if message.tags %}"{% endif %}{{ message }}
+            </div>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% render_table userprofile %}
+
+
+{% endblock %}

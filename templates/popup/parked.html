@@ -1,0 +1,77 @@
+{% extends "base_console2.html" %}
+{##}
+{% load i18n %}
+{% load staticfiles %}
+{% block content %}
+
+<div class="row">
+  <div class="col-md-12">
+    <!-- Capture Complaint Form -->
+    <div class="widget">
+      <div class="widget-header clearfix">
+        <h3><i class="icon ion-android-call"></i> <span class="general-title">{% trans "PARKED CALLS" %}</span></h3>
+        <div class="btn-group widget-header-toolbar visible-lg">
+          <a href="#" title="Expand/Collapse" class="btn btn-link btn-toggle-expand"><i class="icon ion-ios-arrow-up"></i></a>
+          <!-- <a href="#" title="Remove" class="btn btn-link btn-remove"><i class="icon ion-ios-close-empty"></i></a> -->
+        </div>
+      </div>
+      <div class="widget-content table-responsive">
+        <div class="">
+          <table id="example" class="display" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th><i class="icon ion-ios-keypad"></i>&ensp;Parked Lot</th>
+                <th><i class="icon ion-ios-pricetags"></i>&ensp;Called Agent ID</th>
+                <th><i class="icon ion-person"></i>&ensp;Caller</th>
+                <th>Action <i class="icon ion-chevron-down"></i></th>
+              </tr>
+            </thead>
+          <tfoot>
+              <tr>
+                <th><i class="icon ion-ios-keypad"></i>&ensp;Parked Lot</th>
+                <th><i class="icon ion-ios-pricetags"></i>&ensp;Called Agent ID</th>
+                <th><i class="icon ion-person"></i>&ensp;Caller</th>
+                <th>Action <i class="icon ion-chevron-down"></i></th>
+              </tr>
+            </tfoot>
+            <tbody>
+            {% for key, value in parked_calls.items %}
+
+                <tr>
+                    <td><span class="label label-success"><i class="icon ion-headphone"></i>&ensp;<strong>{{ key}}
+                        </strong></span></td>
+                    <td>{{ value.ConnectedLineName}}</td>
+                    <td>{{ value.CallerIDName}}</td>
+{#                    <td><span class="label label-danger"><i class="icon ion-android-time"></i>&ensp;<strong>{{value.Duration}}#}
+{#                    </strong></span></td>#}
+                    <td>
+					 <button type="button" id="unpark" class="btn btn-primary"><i class="icon ion-ios-telephone-outline"> </i> {% trans "Click to Unpark" %}</button>
+                    <!-- <i class="icon ion-ios-telephone-outline"><strong>Dial {{ key }} to Answer</strong></i></td> -->
+                </tr>
+
+        {% endfor %}
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+{% block content_side %}
+<div class="row">
+  <div class="col-md-12">
+    <h4><span class="center-block" style="color: crimson; font-weight: 900; text-align: center">{% trans "Call Services" %}</span></h4>
+
+    <p class="text-center">
+      <button type="button" id="agents" class="btn btn-primary">{% trans "Available Agents" %}</button>
+    </p>
+    <hr/>
+    <div id="agent_html" class="agent_html">
+
+    </div>
+  </div>
+</div>
+{% endblock %}

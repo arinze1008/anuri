@@ -1,0 +1,28 @@
+{% extends "base_console3.html" %}
+{% load bootstrap_form from bootstrap3 %}
+{% load i18n %}
+{% load static %}
+{% block title %}{% trans "Login" %} — {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="content-box-bordered login-box box-with-help">
+         <form class="form-horizontal" role="form" method="post">
+            {% csrf_token %}
+             <fieldset>
+                <legend>
+                  <span class="col-md-8 col-md-offset-2 console-title">
+                    Hello {{ user.profile.first_name }}
+                    {% trans ', You are currently on Break' %}
+                  </span>
+                </legend>
+                   <div class="form-group text-center">
+                      <img src="{% static 'img/call-agent.png' %}" alt="Avatar" class="avatar img-circle avatar-thumb">
+                   </div>
+                <input type="hidden" name="next" value="{{ next }}" />
+            </fieldset>
+
+        </form>
+    </div>
+</div>
+{% endblock %}

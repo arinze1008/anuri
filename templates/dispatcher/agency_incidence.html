@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{##}
+{% load i18n %}
+{% load staticfiles %}
+{% block content %}
+
+<div class="row">
+  <div class="col-md-12">
+    <!-- Capture Complaint Form -->
+    <div class="widget">
+      <div class="widget-header clearfix">
+        <h3><i class="icon ion-android-call"></i> <span class="general-title">{% trans "AGENCY INCIDENCES" %}</span></h3>
+        <div class="btn-group widget-header-toolbar visible-lg">
+          <a href="#" title="Expand/Collapse" class="btn btn-link btn-toggle-expand"><i class="icon ion-ios-arrow-up"></i></a>
+        </div>
+      </div>
+      <div class="widget-content table-responsive">
+        <div class="">
+          <table id="example3" class="display datagrid3" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th>Ticket Id</th>
+                <th>Emergency</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th>Dispatch Time</th>
+                <th>Note</th>
+
+              </tr>
+            </thead>
+          <tfoot>
+              <tr>
+                <th>Ticket Id</th>
+                <th>Emergency</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th>Dispatch Time</th>
+                <th>Note</th>
+              </tr>
+            </tfoot>
+            <tbody>
+            {% for call in agency_incidence %}
+                <tr>
+                    <td>{{ call.ticket_id}}</td>
+                    <td>{{ call.incidence}}</td>
+                    <td>{{ call.location}}</td>
+                    <td>{{ call.status}}</td>
+                    <td>{{ call.dispatch_time}}</td>
+                    <td>{{ call.note}}</td>
+                </tr>
+
+        {% endfor %}
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+

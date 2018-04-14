@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+
+    <div class="widget-content">
+    <br/>
+    <div class="row">
+        <div class="col-sm-3 text-center">
+            <div class="quick-info horizontal">
+                <i class="icon ion-thumbsup pull-left bg-seagreen"></i>
+                <p>{{ call_count }} <span>Total Number of Calls</span></p>
+            </div>
+        </div>
+        <div class="col-sm-3 text-center">
+            <div class="quick-info horizontal">
+                <i class="icon ion-arrow-graph-up-right pull-left bg-orange"></i>
+                <p>{{ answered_call }}<span>Answered Calls</span></p>
+            </div>
+        </div>
+        <div class="col-sm-3 text-center">
+            <div class="quick-info horizontal">
+                <i class="icon ion-cash pull-left bg-green"></i>
+                <p>{{ unanswered_call}} <span>Unanswered Calls</span></p>
+            </div>
+        </div>
+        <div class="col-sm-3 text-center">
+            <div class="quick-info horizontal">
+                <i class="icon ion-person-stalker pull-left bg-blue"></i>
+                <p>{{ failed_call }} <span>Failed Calls</span></p>
+            </div>
+        </div>
+
+    </div>
+    <hr/>
+
+    <br/>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="widget">
+                <div id="highchart-0" style="height: 300px"></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="widget">
+                <div id="highchart-1" style="height: 300px"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+  <script type='text/javascript'>
+    var dataset;
+
+    dataset = {
+      "chart": {
+        "type": "pie",
+        "plotBackgroundColor": null,
+        "plotBorderWidth": null,
+        "plotShadow": false
+      },
+
+      "title": {
+        "text": "{{ "Percentage of Calls" }}"
+      },
+
+      "series": [{
+        "name": "Calls",
+        "colorByPoint": true,
+        "data": [ {
+                    name: 'Answered Call',
+                    y: {{ answered_call }},
+                    sliced: true,
+                    selected: true
+                }, {
+                    name: 'Unanswered Call',
+                    y: {{ unanswered_call }}
+                }, {
+                    name: 'Failed Call',
+                    y: {{ failed_call }}
+                }]
+      }],
+
+      "tooltip": {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+      "plotOptions": {
+        "pie": {
+          "showInLegend": true,
+          "allowPointSelect": true,
+          "cursor": "pointer",
+          "dataLabels": {
+            "enabled": true,
+            "format": '<b>{point.name}</b>: {point.percentage:.1f} %',
+            "style": {
+                "color": (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+            }
+          }
+        }
+      }
+    };
+
+    $('#highchart-0').highcharts(dataset);
+  </script>
+    <script type='text/javascript'>
+    var dataset;
+
+    dataset = {
+      "chart": {
+            "type": 'column'
+        },
+      "title": {
+        "text": 'Number of Calls'
+        },
+      "subtitle": {
+        "text": 'Source: CallTaker.com'
+        },
+      "xAxis": {
+            "categories": [
+                    {% for t in categories %}
+                        {% if not forloop.first %}, {% endif %}
+                        "{{ t }}"
+                    {% endfor %}
+            ],
+            "crosshair": true
+        },
+        "yAxis": {
+            "min": 0,
+            "title": {
+                "text": 'Amount Used (NGN)'
+            }
+        },
+        "tooltip": {
+            "headerFormat": '<span style="font-size:10px">{point.key}</span><table>',
+            "pointFormat": '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+            "footerFormat": '</table>',
+            "shared": true,
+            "useHTML": true
+        },
+        "plotOptions": {
+            "column": {
+                "pointPadding": 0.2,
+                "borderWidth": 0
+            }
+        },
+
+        "series": [{
+            "name": 'Calls',
+            "data": {{ data }}
+
+        }]
+
+    };
+
+    $('#highchart-1').highcharts(dataset);
+  </script>
+{% endblock %}

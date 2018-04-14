@@ -1,0 +1,22 @@
+
+{#{% load i18n %}#}
+{#{% load render_table from django_tables2 %}#}
+{#{% load static %}#}
+{# <head>#}
+{#        <link rel="stylesheet" href="{% static 'django_tables2/themes/paleblue/css/screen.css' %}" />#}
+{#    </head>#}
+{#{% block content %}#}
+{#    <div class="row">#}
+{#        <button type="submit" class="btn btn-success"><i class="ion ion-android-add-circle"></i>{% trans "Add User " %}</button>#}
+{#    </div>#}
+{#    {% render_table table %}#}
+{##}
+{##}
+
+
+{% extends 'base.html' %}
+{% load render_table from django_tables2 %}
+{% load static %}
+{% block content %}
+    {% render_table table %}
+{% endblock %}

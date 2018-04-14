@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{##}
+{% load i18n %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-8 col-sm-push-2">
+        <form action="." method="post">
+            {% csrf_token %}
+            <h3><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span> {% trans "SIP EXTENSION: " %} <span style="color: darkorange">{{ ext.name }} </span></h3>
+             <p class="text-right">
+                <a href="{% url 'ext:ext-edit' pk=ext.pk %}" class="btn btn-primary" style="margin-top: -50px;"><i class="ion-ios-compose-outline">
+              </i>{% trans "Edit User " %}</a>
+            </p>
+            <hr/>
+            {% include "extension/snippets/ext-view.html" %}
+            <p class="text-left">
+                <a href="{% url 'ext:ext-edit' pk=ext.pk %}" class="btn btn-primary"><i class="ion ion-android-add-circle">
+        </i>{% trans "Edit User " %}</a>
+            </p>
+        </form>
+    </div>
+</div>
+{% endblock content %}

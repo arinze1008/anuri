@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+
+    <div class="widget-content">
+    <br/>
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="quick-info boxed bg-danger">
+                <!--<i class="icon ion-arrow-graph-up-right"></i>-->
+                <p><span> Start Date - End Date : </span>{{start_date}} </p>
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="quick-info boxed bg-blue">
+                <!--<i class="icon ion-arrow-graph-up-right"></i>-->
+                <p><span> Total Abandon : </span>{{total_abandon}} </p>
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+        <div class="quick-info boxed bg-orange">
+            <!--<i class="icon ion-arrow-graph-up-right"></i>-->
+            <p><span> Average Wait Time : </span>{{abandon_average_hold}} </p>
+        </div>
+        </div>
+
+            <div class="col-sm-3">
+            <div class="quick-info boxed bg-green">
+                <!--<i class="icon ion-arrow-graph-up-right"></i>-->
+                <p><span> Average Hold Time : </span>{{average_hold}} </p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="widget">
+                <div id="highchart-1" style="height: 300px"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    <script type='text/javascript'>
+    var dataset;
+
+    dataset = {
+      "chart": {
+            "type": 'column'
+        },
+      "title": {
+        "text": 'Unanswered Call Analysis'
+        },
+      "subtitle": {
+        "text": 'Source: CallTaker.com'
+        },
+      "xAxis": {
+            "categories": [
+                    {% for t in categories %}
+                        {% if not forloop.first %}, {% endif %}
+                        "{{ t }}"
+                    {% endfor %}
+            ],
+            "crosshair": true
+        },
+        "yAxis": {
+            "min": 0,
+            "title": {
+                "text": 'Number'
+            }
+        },
+        "tooltip": {
+            "headerFormat": '<span style="font-size:10px">{point.key}</span><table>',
+            "pointFormat": '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} times</b></td></tr>',
+            "footerFormat": '</table>',
+            "shared": true,
+            "useHTML": true
+        },
+        "plotOptions": {
+            "column": {
+                "pointPadding": 0.2,
+                "borderWidth": 0
+            }
+        },
+
+        "series": [{
+            "name": 'Exit Time',
+            "data": {{ exit_time_period }}
+
+        },{
+            "name": 'Wait Time',
+            "data": {{ wait_time_period }}
+
+        }]
+
+    };
+
+    $('#highchart-1').highcharts(dataset);
+  </script>
+{% endblock %}

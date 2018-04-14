@@ -1,0 +1,154 @@
+{% extends "base_console.html" %}
+{##}
+{% load i18n %}
+{% load staticfiles %}
+{% block content %}
+<form action="." method="post">
+    {% csrf_token %}
+
+<div class="row">
+  <div class="col-md-12">
+    <!-- Capture Complaint Form -->
+    <div class="widget">
+      <div class="widget-header clearfix">
+        <h3><i class="icon ion-compose"></i> <span class="general-title">{% trans "CAPTURE COMPLAINTS" %}</span></h3>
+        <div class="pull-right">
+          <a href="#" data-toexten="{{ channel.Channel }}"  id ='hangup' class="btn btn-warning"><i class="ion-headphone"></i>&ensp;{% trans "Hangup" %}</a>
+          <a href="#" id ='transfer'  data-fm-head="Transfer Call" class="btn btn-danger"><i class="ion-ios-redo"></i>&ensp;{% trans "Transfer" %}</a>
+        </div>
+
+
+      </div>
+      <div class="widget-content">
+        <form action="." method="post" id="shifts" role="form" class="form-horizontal">
+          {% csrf_token %}
+          {% if messages %}
+          <ul class="messages">
+            {% for message in messages %}
+            <div class="alert alert-success fade in">
+              <button class="close" data-dismiss="alert">&times;</button>
+              <i class="icon ion-checkmark-circled"></i>
+              <strong>Well done!</strong> {% if message.tags %}"{% endif %}{{ message }}
+            </div>
+            {% endfor %}
+          </ul>
+          {% endif %}
+          {#                    {{ case.state_auto }}#}
+
+          <div class="row">
+            {% include "popup/snippets/complaint-form.html" %}
+
+            <div class="col-md-4">
+               <fieldset>
+                 <legend><i class="icon ion-person-add"></i> <strong>Account Details</strong></legend>
+
+                 {% include "popup/snippets/phone-form.html" %}
+                 <button type="button" name="button">{% trans "Search" %}</button>
+                 <br/><br/>
+
+                 <!-- <table class="table table-striped table-hover">
+                   <tbody>
+                     <tr>
+                       <th>First name</th>
+                       <td>Oyedele</td>
+                     </tr>
+                     <tr>
+                       <th>Last name</th>
+                       <td>Oyedele</td>
+                     </tr>
+                     <tr>
+                       <th>State</th>
+                       <td>Abuja</td>
+                     </tr>
+                     <tr>
+                       <th>City</th>
+                       <td>AMAC</td>
+                     </tr>
+                     <tr>
+                       <th>Location</th>
+                       <td>Not Available</td>
+                     </tr>
+                     <tr>
+                       <th>Phone</th>
+                       <td>08045365761</td>
+                     </tr>
+                   </tbody>
+                 </table> -->
+               </fieldset>
+          	</div>
+
+          </div>
+
+
+          <p class="text-left">
+            <button type="submit" class="btn btn-primary " disabled="disabled" id="disabled-button">
+              <i class="icon ion-checkmark-circled"></i>
+              {% trans "UPDATE" %}
+            </button>
+            <button type="submit" class="btn btn-success">
+              {% trans "DONE" %}
+              <i class="icon ion-close-circled"></i>
+            </button>
+          </p>
+        </form>
+      </div>
+    </div>
+    <!-- End of Capture Complaint Form -->
+  </div>
+</div>
+</form>
+    <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+
+
+{% endblock content %}
+{% block content_side %}
+    <div class="row">
+        <!-- Buttons -->
+
+        <!-- End of Buttons -->
+    <!-- Modal -->
+    <div class="modal fade mytitle" id="myModal" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h1 class="modal-title" id="myModalLabel"> </h1>
+          </div>
+          <div class="modal-body" id="agent_html">
+              <div class="agent_html">
+
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button"  class="btn btn-primary">Hang Up</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('body').click(function(e){
+{#           e.preventDefault();#}
+           if($('#id_respondent').val() == null){
+             $('#disabled-button').attr('disabled', true);
+           }
+        });
+
+        $('#id_respondent').click(function(){
+          // console.log($(this).val());
+          if($(this).val()){
+            $('#disabled-button').attr('disabled', false);
+          }else{
+            $('#disabled-button').attr('disabled', true);
+          }
+        })
+
+        if($('.fm-create').is(':visible')){
+          $('#take_break').attr("disabled", true);
+          $('#take_break').attr('href','#'); //Set Url to empty so that even when the disabled button is clicked, it does not leave the page
+        }
+      });
+    </script>
+{% endblock %}

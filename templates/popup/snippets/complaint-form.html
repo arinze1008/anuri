@@ -1,0 +1,74 @@
+{% load bootstrap_field from bootstrap3 %}
+
+<!-- <div class="row"> -->
+	<div class="col-md-8">
+    <fieldset>
+      <legend><i class="icon ion-android-call"></i> <strong>Caller's Information</strong></legend>
+    </fieldset>
+
+    <div class="row">
+      <div class="col-sm-6 ">
+          {% bootstrap_field pop_form.location %}
+      </div>
+      <div class="col-sm-6">
+          {% bootstrap_field pop_form.community %}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-6">
+          {% bootstrap_field pop_form.emergencies %}
+      </div>
+      <div class="col-sm-6">
+          {% bootstrap_field pop_form.respondent %}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-6">
+          {% bootstrap_field pop_form.name %}
+      </div>
+      <div class="col-sm-6">
+          {% bootstrap_field pop_form.phone %}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-6">
+        {% bootstrap_field pop_form.state %}
+      </div>
+      <div class="col-sm-4" style="margin-left:0px; width: 30% !important;">
+          {% bootstrap_field pop_form.injured_citizen %}
+      </div>
+      <div class="col-sm-2 form-number" style="display: none">
+          {% bootstrap_field pop_form.inc_number %}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+          {% bootstrap_field pop_form.note %}
+      </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-4" style="display: none">
+            {% bootstrap_field pop_form.context %}
+        </div>
+
+        <div class="col-sm-4" style="display: none">
+            {% bootstrap_field pop_form.channel %}
+        </div>
+        <div class="col-sm-4" style="display: none">
+            {% bootstrap_field pop_form.agent %}
+        </div>
+    </div>
+
+  </div>
+
+
+	
+
+
+<!-- </div> -->

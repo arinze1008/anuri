@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{##}
+{% load i18n %}
+{% load staticfiles %}
+{% load static %}
+{% block content %}
+
+<div class="row">
+  <div class="col-md-12">
+    <!-- Capture Complaint Form -->
+    <div class="widget">
+      <div class="widget-header clearfix">
+        <h3><i class="icon ion-android-call"></i> <span class="general-title">{% trans "Recorded Calls" %}</span></h3>
+        <div class="btn-group widget-header-toolbar visible-lg">
+          <a href="#" title="Expand/Collapse" class="btn btn-link btn-toggle-expand"><i class="icon ion-ios-arrow-up"></i></a>
+        </div>
+      </div>
+      <div class="widget-content table-responsive">
+        <div class="">
+          <table class="display dataGrid"  cellspacing="0" width="100%">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th><i class="icon ion-ios-film"> </i>Call File</th>
+                  <th><i class="ion-android-microphone"> </i>Audio File</th>
+                </tr>
+              </thead>
+                <tfoot>
+                <tr>
+                  <th>#</th>
+                  <th><i class="icon ion-ios-film"> </i>Call File</th>
+                  <th><i class="ion-android-microphone"> </i>Audio File</th>
+                </tr>
+              </tfoot>
+
+              <tbody>
+                {% for file in audios %}
+                    {% if file %}
+                        <tr>
+                          <td>1</td>
+                          <td>{{ file }}</td>
+                          <td>
+                              <audio id="Player" controls>
+{#                                 <source src="{% static 'img/monitor/'|add:file %}" type="audio/wav"/>#}
+                                  <source src="{% get_media_prefix %}{{ file }}" type="audio/wav"/>
+                              </audio>
+                          </td>
+                        </tr>
+                    {% endif %}
+              {% endfor %}
+
+              </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+

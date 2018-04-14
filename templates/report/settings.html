@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{##}
+{% load i18n %}
+{% load staticfiles %}
+{% block content %}
+    <div class="row">
+      <div class="widget-content table-responsive">
+        <form action="." method="post">
+        {% csrf_token %}
+            <div class="col-md-8">
+              <div class="widget">
+                <div class="widget-header clearfix" style="background-color: #1688ae !important">
+                  <h3 style="color:#fff !important"><i class="icon ion-edit" style="color:#fff !important"></i> <span><strong>CONFIGURE SETTING</strong></span></h3>
+                  <div class="btn-group widget-header-toolbar visible-lg">
+                    <a href="#" title="Expand/Collapse" class="btn btn-link btn-toggle-expand"><i class="icon ion-ios-arrow-up"></i></a>
+                    <!-- <a href="#" title="Remove" class="btn btn-link btn-remove"><i class="icon ion-ios-close-empty"></i></a> -->
+                  </div>
+                </div>
+                <div class="widget-content">
+                  {% include "report/dash-form.html" %}
+                     <p class="text-left">
+                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-saved" aria-hidden="true"></span> {% trans "Save and Display Report" %}</button>
+                </p>
+                </div>
+
+              </div>
+            </div>
+         </form>
+          <div class="col-md-4">
+              <div class="widget">
+                <div class="widget-header clearfix" style="background-color: #1688ae !important">
+                  <h3 style="color:#fff !important"><i class="icon ion-edit" style="color:#fff !important"></i> <span><strong>SHORTCUT SETTING (For all agents)</strong></span></h3>
+                  <div class="btn-group widget-header-toolbar visible-lg">
+                    <a href="#" title="Expand/Collapse" class="btn btn-link btn-toggle-expand"><i class="icon ion-ios-arrow-up"></i></a>
+                    <!-- <a href="#" title="Remove" class="btn btn-link btn-remove"><i class="icon ion-ios-close-empty"></i></a> -->
+                  </div>
+                </div>
+                <div class="widget-content">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="{% url 'popup:agent-break' %}" id="take_break" class="btn-link" ></i>&ensp;<strong>{% trans "Today" %}</strong></a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{% url 'popup:agent-break' %}" id="take_break" class="btn-link" ></i>&ensp;<strong>{% trans "This month" %}</strong></a>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row ">
+                        <div class="col-md-6">
+                            <a href="{% url 'popup:agent-break' %}" id="take_break" class="btn-link" ></i>&ensp;<strong>{% trans "This week" %}</strong></a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{% url 'popup:agent-break' %}" id="take_break" class="btn-link" ></i>&ensp;<strong>{% trans "Last 7 days" %}</strong></a>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="row ">
+                        <div class="col-md-6">
+                            <a href="{% url 'popup:agent-break' %}" id="take_break" class="btn-link" ></i>&ensp;<strong>{% trans "This year" %}</strong></a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{% url 'popup:agent-break' %}" id="take_break" class="btn-link" ></i>&ensp;<strong>{% trans "Last one year" %}</strong></a>
+                        </div>
+                    </div>
+
+                </div>
+
+              </div>
+            </div>
+        </div>
+  </div>  <!--End of col-md-4 -->
+
+
+
+{% endblock content %}

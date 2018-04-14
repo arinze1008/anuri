@@ -1,0 +1,44 @@
+{% load bootstrap_field from bootstrap3 %}
+{% bootstrap_field profile_form.user %}
+<div class="row">
+    <div class="col-sm-6">
+        {% bootstrap_field profile_form.first_name %}
+    </div>
+    <div class="col-sm-6">
+        {% bootstrap_field profile_form.last_name %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        {% bootstrap_field profile_form.middle_name %}
+    </div>
+    <div class="col-sm-6">
+        {% bootstrap_field profile_form.registration_number %}
+    </div>
+</div>
+<div class="row">
+
+    <div class="col-sm-6">
+        {% bootstrap_field profile_form.date_of_birth %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        {% bootstrap_field profile_form.street_address %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        {% bootstrap_field profile_form.phone %}
+    </div>
+    <div class="col-sm-6">
+        {% bootstrap_field profile_form.city %}
+    </div>
+</div><div class="row">
+    <div class="col-sm-6">
+        {% bootstrap_field profile_form.postal_code %}
+    </div>
+    <div class="col-sm-6">
+        {% bootstrap_field profile_form.country %}
+    </div>
+</div>

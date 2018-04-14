@@ -1,0 +1,26 @@
+{% extends "base_login.html" %}
+{% load bootstrap_form from bootstrap3 %}
+{% load i18n %}
+
+{% block title %}{% trans "Login" %} — {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="content-box-bordered login-box box-with-help">
+        <form class="form-horizontal" role="form" method="post" action="{% url 'registration:login' %}">
+            {% csrf_token %}
+             <fieldset>
+                <legend><span style="color: #cc7a00; font-weight: bold" >{% trans 'LOG IN' %}</span></legend>
+                {% bootstrap_form form %}
+                <input type="hidden" name="next" value="{{ next }}" />
+            </fieldset>
+            <div class="form-group text-right">
+                <a class="btn btn-secondary" href="{% url 'registration:request_email_confirmation' %}">{% trans "I don't know my password" %}</a>
+                <button class="btn btn-primary">
+                    {% trans "Log in" %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends "base_console.html" %}
+{% load bootstrap_form from bootstrap3 %}
+{% load i18n %}
+{% load static %}
+{% block title %}{% trans "Login" %} — {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="content-box-bordered login-box2 box-with-help" style="min-height: 432px">
+         <form class="form-horizontal" role="form" method="post">
+            {% csrf_token %}
+             <fieldset>
+                <legend>
+                  <span class="col-md-8 col-md-offset-2 console-title">
+                    Hello {{ user.profile.first_name }}
+                    {% trans ', You are ready to answer calls.' %}
+                  </span>
+                </legend>
+                   <div class="form-group text-center">
+                      <img src="{% static 'img/deskimage.png' %}" alt="Avatar" class="avatar-thumb">
+                       <!--<img src="{% static 'img/deskimage.png' %}" alt="Avatar" class="avatar img-circle avatar-thumb">-->
+                   </div>
+                <input type="hidden" name="next" value="{{ next }}" />
+            </fieldset>
+            <div class="form-group text-center">
+                <!--<a href="{% url 'popup:popup-create' %}" class="btn btn-primary">
+                  <i class="ion-stop"></i>&ensp;{% trans "Click to Popup" %}
+                </a>-->
+            </div>
+        </form>
+    </div>
+</div>
+    <script>
+        $(function () {
+            // Correctly decide between ws:// and wss://
+            var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+            var ws_path = ws_scheme + '://' + window.location.host + window.location.pathname + "stream/";
+            console.log("Connecting to " + ws_path);
+            var socket = new ReconnectingWebSocket(ws_path);
+            var agent =  "{{ my_agent }}"
+            var agent_pk = "{{agent_pk}}"
+            // Handle incoming messages
+            socket.onmessage = function(message) {
+                // Decode the JSON
+                console.log("Got message " + message.data);
+                var data = JSON.parse(message.data);
+                var streamName = data.stream;
+                var payload = data.payload;
+                if (streamName == "popinfo") {
+                    // Handle different actions
+                    if (payload.action == "create") {
+                        if (payload.data.called.trim() == agent){
+                            var caller = payload.data.caller;
+                            url = decodeURIComponent("http://"+window.location.hostname+":8000/popup/popup/create/?q="+caller.toString());
+                            url = url.replace(/\s/g, '');
+                            console.log(url);
+                            window.location.href = url;
+                        }
+                    } else if (payload.action == "update") {
+{#                        refresh();#}
+                    } else if (payload.action == "delete") {
+{#                        refresh();#}
+                    } else {
+                        console.log("Unknown action " + payload.action);
+                    }
+                } else if(streamName == "logoutinfo") {
+                     // Handle different actions
+                    if (payload.action == "create") {
+                        var agent_trim = payload.data.agent.trim()
+                        var webagent = agent_trim.slice(2,-1)
+                        if (webagent == agent_pk){
+                            url = decodeURIComponent("http://"+window.location.hostname+":8000/profile/agent/logout/");
+                            url = url.replace(/\s/g, '');
+                            console.log(url);
+                            window.location.href = url;
+                        }
+                    } else if (payload.action == "update") {
+{#                        refresh();#}
+                    } else if (payload.action == "delete") {
+{#                        refresh();#}
+                    } else {
+                        console.log("Unknown action " + payload.action);
+                    }
+                }
+                else {
+                    console.log("Unknown stream " + streamName);
+                }
+            };
+
+
+            // Helpful debugging
+
+            socket.onopen = function() { console.log("Connected to notification socket"); }
+            socket.onclose = function() { console.log("Disconnected to notification socket"); }
+        });
+    </script>
+{% endblock %}
