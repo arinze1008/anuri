@@ -98,7 +98,6 @@ pcs==0.9.152
 perf==0.1
 pexpect==2.3
 phonenumberslite==7.7.3
-Pillow==2.7.0
 policycoreutils-default-encoding==0.1
 premailer==3.0.1
 prices==0.5.8
